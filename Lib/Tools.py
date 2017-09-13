@@ -1,0 +1,71 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+import urllib
+import urllib2
+import re
+import ssl
+import os
+import sys
+
+class Tools :
+
+	def __init__ (self) :
+		pass
+
+	def getPage (self, url, requestHeader = [], postData = {}) :
+		if postData == {} :
+			request = urllib2.Request(url)
+		elif isinstance(postData, basestring) :
+			request = urllib2.Request(url, postData)
+		else :
+			request = urllib2.Request(url, urllib.urlencode(postData))
+
+		for x in requestHeader :
+			headerType = x.split(':')[0]
+			headerCon = x.replace(headerType + ':', '')
+			request.add_header(headerType, headerCon)
+
+		try : 
+			ctx = ssl.create_default_context()
+			ctx.check_hostname = False
+			ctx.verify_mode = ssl.CERT_NONE
+			response = urllib2.urlopen(request, context = ctx)
+			header = response.headers
+			body = response.read()
+			code = response.code
+		except urllib2.HTTPError, e:
+			header = e.headers
+			body = e.read()
+			code = e.code
+
+		result = {
+			'code': code,
+			'header': header,
+			'body': body
+		}
+
+		return result
+
+	def fmtCookie (self, string) :
+		result = re.sub(r"path\=\/.", "", string)
+		result = re.sub(r"(\S*?)\=deleted.", "", result)
+		result = re.sub(r"expires\=(.*?)GMT;", "", result)
+		result = re.sub(r"domain\=(.*?)tv.", "", result)
+		result = re.sub(r"httponly", "", result)
+		result = re.sub(r"\s", "", result)
+
+		return result
+
+	def urlencode(self, str) :
+		reprStr = repr(str).replace(r'\x', '%')
+		return reprStr[1:-1]
+
+	def getRes (self, fileName) :
+		if getattr(sys, 'frozen', False):
+			base_path = os.path.join(sys._MEIPASS, 'RES')
+		else:
+			base_path = os.path.join(os.path.abspath("../"), 'Resources')
+
+		filePath = os.path.join(base_path, fileName)
+
+		return filePath

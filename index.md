@@ -39,7 +39,7 @@ Python ： 2.7.10
 
 ### 附注
 
-源代码已开放[GitHub](https://github.com/EvilCult/moviecatcher).如对登陆不放心，可详查源代码，并且，.spec文件已上传，可食用Pyinstaller自行打包使用。
+源代码已上传至[GitHub](https://github.com/EvilCult/moviecatcher).如对登陆不放心，可详查源代码，并且，「.spec」文件已上传，可使用Pyinstaller自行打包使用。
 
 Mac需要注意，系统的Tcl/Tk版本存在bug，Entry无法输入中文，请更新至8.5.18可解决此问题。（新系统有rootless，先关闭后，再替换'/system/library/frameworks'目录下的文件（目前感觉最完美的解决方案，如有更好请告诉我））
 

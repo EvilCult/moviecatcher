@@ -28,9 +28,19 @@ App ： MacOs 10.12 及以上
 
 Python ： 2.7.10
 
-类库支持 : Pillow, selenium
+依赖包 : Pillow, selenium
 
 
 ### 系统要求
 
 离线下载请搭配[Aria2Gui](https://github.com/yangshun1029/aria2gui/releases), 强烈推荐.
+
+### 附注
+
+源代码已开放[GitHub](https://github.com/EvilCult/moviecatcher).如对登陆不放心，可详查源代码，并且，.spec文件已上传，可食用Pyinstaller自行打包使用。
+
+Mac需要注意，系统的Tcl/Tk版本存在bug，Entry无法输入中文，请更新至8.5.18可解决此问题。（新系统有rootless，先关闭后，再替换'/system/library/frameworks'目录下的文件（目前感觉最完美的解决方案，如有更好请告诉我））
+
+本软件其实就是个自动操作流，如果还是不放心填密码，来来来，我教你如何人工手动来实现。。。
+
+

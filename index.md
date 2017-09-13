@@ -14,6 +14,8 @@
 
 后期初步仅支持【搜索】，【离线下载】，【在线播放】，后期会逐渐加入新功能，以及扩展资源搜索范围。
 
+![Image](https://evilcult.github.io/moviecatcher/img/preview.jpg)
+
 Mac版App下载：[下载地址](https://github.com/EvilCult/moviecatcher/releases/tag/Beta0.9.5(29BA0)).
 
 Windows版exe暂不提供，带后期开发.

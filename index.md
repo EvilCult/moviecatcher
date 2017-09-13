@@ -43,4 +43,10 @@ Mac需要注意，系统的Tcl/Tk版本存在bug，Entry无法输入中文，请
 
 本软件其实就是个自动操作流，如果还是不放心填密码，来来来，我教你如何人工手动来实现。。。
 
+### 捐助
+
+貌似现在都流行这个啊，也放一个吧。。。。
+
+![Image](https://evilcult.github.io/moviecatcher/img/qr.jpg)
+
 

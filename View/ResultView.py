@@ -9,7 +9,8 @@ class GUI :
 
 	def __init__ (self, master) :
 		self.master = master
-		self.result = ''
+		self.listRst = ''
+		self.resRst = ''
 		self.getDetail = ''
 
 	def showList (self, searchKey) :
@@ -38,58 +39,55 @@ class GUI :
 		except : 
 			pass
 
-	def update (self) :
-		if self.result != '' :
+	def updateList (self) :
+		if self.listRst != '' :
 			idx = 0
-			for x in self.result :
+			for x in self.listRst :
 				self.window.insert(idx, x['title'])
 				idx += 1
 		else :
-			self.timer = self.frame.after(50, self.update)
+			self.timer = self.frame.after(50, self.updateList)
 
-	def showRes (self, data) :
-		self.res = data
+	def showRes (self) :
 		self.resWindow = Tkinter.Toplevel()
 		self.resWindow.title(self.target['title'])
 		self.resWindow.resizable(width = 'false', height = 'false')
 		self.resWindow.config(background='#444')
 
-		topZone = Tkinter.Frame(self.resWindow, bd = 10, bg="#444")
-		topZone.grid(row = 0, column = 0, sticky = '')
+		self.resFrame = Tkinter.Frame(self.resWindow, bd = 10, bg="#444")
+		self.resFrame.grid(row = 0, column = 0, sticky = '')
 
 		btnZone = Tkinter.Frame(self.resWindow, bd = 10, bg="#444")
 		btnZone.grid(row = 1, column = 0, sticky = '')
 
-		dHeight = len(self.res)
-		if dHeight < 5 :
-			dHeight = 5
-		elif dHeight > 20 :
-			dHeight = 20
-
-		self.resList = Tkinter.Listbox(topZone, height = dHeight, width = 50, bd = 0, bg="#444", fg = '#ddd',selectbackground = '#116cd6', highlightthickness = 0)
+		self.resList = Tkinter.Listbox(self.resFrame, height = 8, width = 50, bd = 0, bg="#444", fg = '#ddd',selectbackground = '#116cd6', highlightthickness = 0)
 		self.resList.grid(row = 0, sticky = '')
 
-		if len(self.res) > 0:
-			idx = 0
-			for x in self.res :
-				self.resList.insert(idx, x[0])
-				idx += 1
+		viewBtn = Tkinter.Button(btnZone, text = '查看连接', width = 10, fg = '#222', highlightbackground = '#444', command = self.__taskShow)
+		viewBtn.grid(row = 0, column = 0, padx = 5)
 
-			viewBtn = Tkinter.Button(btnZone, text = '查看连接', width = 10, fg = '#222', highlightbackground = '#444', command = self.__taskShow)
-			viewBtn.grid(row = 0, column = 0, padx = 5)
+		watchBtn = Tkinter.Button(btnZone, text = '在线观看', width = 10, fg = '#222', highlightbackground = '#444', command = self.__taskWatch)
+		watchBtn.grid(row = 0, column = 1, padx = 5)
 
-			watchBtn = Tkinter.Button(btnZone, text = '在线观看', width = 10, fg = '#222', highlightbackground = '#444', command = self.__taskWatch)
-			watchBtn.grid(row = 0, column = 1, padx = 5)
+		dlBtn = Tkinter.Button(btnZone, text = '离线下载', width = 10, fg = '#222', highlightbackground = '#444', command = self.__taskDownload)
+		dlBtn.grid(row = 0, column = 2, padx = 5)
 
-			dlBtn = Tkinter.Button(btnZone, text = '离线下载', width = 10, fg = '#222', highlightbackground = '#444', command = self.__taskDownload)
-			dlBtn.grid(row = 0, column = 2, padx = 5)
+	def updateRes (self) :
+		if self.resRst != '' :
+			if len(self.resRst) > 0:
+				idx = 0
+				for x in self.resRst :
+					self.resList.insert(idx, x[0])
+					idx += 1
+			else :
+				self.resList.insert(0, '该资源已被和谐，暂时无法播放。')
 		else :
-			self.resList.insert(0, '该资源已被和谐，暂时无法播放。')
+			self.timer = self.resFrame.after(50, self.updateRes)
 
 	def __getMovDetails (self, event) : 
 		idx = int(self.window.curselection()[0])
 
-		self.target = self.result[idx]
+		self.target = self.listRst[idx]
 
 		self.getDetail(self.target)
 
@@ -99,7 +97,7 @@ class GUI :
 		else :
 			idx = int(self.resList.curselection()[0])
 
-			target = self.res[idx]
+			target = self.resRst[idx]
 
 	def __taskWatch (self) :
 		if self.resList.curselection() == () :
@@ -107,7 +105,7 @@ class GUI :
 		else :
 			idx = int(self.resList.curselection()[0])
 
-			target = self.res[idx]
+			target = self.resRst[idx]
 
 			Player = Play.Play(self.master)
 			Player.watchLink(target)
@@ -118,7 +116,7 @@ class GUI :
 		else :
 			idx = int(self.resList.curselection()[0])
 
-			target = self.res[idx]
+			target = self.resRst[idx]
 
 			Player = Play.Play(self.master)
 			Player.showLink(target)
@@ -129,7 +127,7 @@ class GUI :
 		else :
 			idx = int(self.resList.curselection()[0])
 
-			target = self.res[idx]
+			target = self.resRst[idx]
 
 			Player = Play.Play(self.master)
 			Player.dlLink(target)

@@ -16,13 +16,13 @@ class Search :
 		searchKey = key.get()
 
 		self.ResWindow.showList(searchKey)
-		self.ResWindow.result = ''
+		self.ResWindow.listRst = ''
 		data = ''
 		self.ResWindow.getDetail = lambda data = data : self.__searchMovDetails(data)
 
 		threading.Thread(target = lambda key = searchKey : self.__searchMov(key)).start()
 
-		self.ResWindow.update()
+		self.ResWindow.updateList()
 
 	def __searchMov (self, key) :
 		self.mainSearcher = ResZmz.Searcher()
@@ -33,18 +33,21 @@ class Search :
 		mainResult.append({'title':'以下为低质量资源:--------','url':''})
 		mainResult.extend(subResult)
 
-		self.ResWindow.result = mainResult
+		self.ResWindow.listRst = mainResult
 
 	def __searchMovDetails (self, data):  
-		self.movData = data
+		self.ResWindow.resRst = ''
+		self.ResWindow.showRes()
 
-		threading.Thread(target = self.__getDetails).start()
+		threading.Thread(target = lambda data = data : self.__getDetails(data)).start()
 
-	def __getDetails (self) :
-		if self.movData['url'] != '' :
-			if self.movData['source'] == 'zmz' :
-				result = self.mainSearcher.getLink(self.movData['url'])
+		self.ResWindow.updateRes()
+
+	def __getDetails (self, data) :
+		if data['url'] != '' :
+			if data['source'] == 'zmz' :
+				result = self.mainSearcher.getLink(data['url'])
 			else :
-				result = self.subSearcher.getLink(self.movData['url'])
+				result = self.subSearcher.getLink(data['url'])
 
-			threading.Thread(target = lambda rst = result : self.ResWindow.showRes(rst)).start()
+			self.ResWindow.resRst = result

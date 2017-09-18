@@ -4,11 +4,13 @@ import Tkinter
 import tkMessageBox
 
 from Bl import Play
+from Lib import Tools
 
 class GUI :
 
 	def __init__ (self, master) :
 		self.master = master
+		self.Tools = Tools.Tools()
 		self.listRst = ''
 		self.resRst = ''
 		self.getDetail = ''
@@ -17,7 +19,8 @@ class GUI :
 		rstWindow = Tkinter.Toplevel()
 		rstWindow.title('资源列表')
 		rstWindow.resizable(width = 'false', height = 'false')
-
+		rstWindow.iconbitmap(self.Tools.getRes('biticon.ico'))
+		
 		titleFrame = Tkinter.Frame(rstWindow, bd = 0, bg="#444")
 		titleFrame.pack(expand = True, fill = 'both')
 
@@ -52,15 +55,16 @@ class GUI :
 		self.resWindow = Tkinter.Toplevel()
 		self.resWindow.title(self.target['title'])
 		self.resWindow.resizable(width = 'false', height = 'false')
+		self.resWindow.iconbitmap(self.Tools.getRes('biticon.ico'))
 		self.resWindow.config(background='#444')
 
-		self.resFrame = Tkinter.Frame(self.resWindow, bd = 10, bg="#444")
+		self.resFrame = Tkinter.Frame(self.resWindow, bd = 0, bg="#444")
 		self.resFrame.grid(row = 0, column = 0, sticky = '')
 
 		btnZone = Tkinter.Frame(self.resWindow, bd = 10, bg="#444")
 		btnZone.grid(row = 1, column = 0, sticky = '')
 
-		self.resList = Tkinter.Listbox(self.resFrame, height = 8, width = 50, bd = 0, bg="#444", fg = '#ddd',selectbackground = '#116cd6', highlightthickness = 0)
+		self.resList = Tkinter.Listbox(self.resFrame, height = 8, width = 50, bd = 0, bg="#222", fg = '#ddd',selectbackground = '#116cd6', highlightthickness = 0)
 		self.resList.grid(row = 0, sticky = '')
 
 		viewBtn = Tkinter.Button(btnZone, text = '查看连接', width = 10, fg = '#222', highlightbackground = '#444', command = self.__taskShow)

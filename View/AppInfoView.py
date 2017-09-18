@@ -18,7 +18,7 @@ class GUI :
 		self.slave = Tkinter.Toplevel()
 		self.slave.title(self.winTitle)
 		self.slave.resizable(width = 'false', height = 'false')
-		self.slave.geometry('280x380+200+200')
+		self.slave.iconbitmap(self.Tools.getRes('biticon.ico'))
 
 		info = [
 			'简介: 就是瞎做来看电影的。',
@@ -32,7 +32,7 @@ class GUI :
 		]
 
 		titleFrame = Tkinter.Frame(self.slave, bd = 0, bg="#444")
-		titleFrame.pack(expand = True, fill = 'both')
+		titleFrame.pack(expand = True, fill = 'both', ipadx = '5')
 
 		titleLabel = Tkinter.Label(titleFrame, text="Movie Catcher", fg = '#ddd', bg="#444", font = ("Helvetica", "16", 'bold'), anchor = 'center')
 		titleLabel.grid(row = 0, column = 1, pady = 5)

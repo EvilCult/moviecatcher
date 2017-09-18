@@ -3,6 +3,6 @@
 
 info =  {
 	'title' : 'Movie Catcher',
-	'ver' : 'Beta 0.9.5',
-	'build' : '29BA0'
+	'ver' : 'Beta 0.9.6',
+	'build' : '29BA6'
 }

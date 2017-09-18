@@ -7,16 +7,22 @@ import io
 import PIL.Image
 import PIL.ImageTk
 import tkMessageBox
+import time
+from selenium import webdriver
+
+from Lib import Tools
 
 class GUI :
 
 	def __init__ (self) :
 		self.authDownload = ''
+		self.Tools = Tools.Tools()
 
 	def showDlLink (self, link) :
 		window = Tkinter.Toplevel()
 		window.title('下载链接')
 		window.resizable(width = 'false', height = 'false')
+		window.iconbitmap(self.Tools.getRes('biticon.ico'))
 
 		topZone = Tkinter.Frame(window, bd = 0, bg="#444")
 		topZone.pack(expand = True, fill = 'both')
@@ -29,6 +35,7 @@ class GUI :
 		self.authWindow = Tkinter.Toplevel()
 		self.authWindow.title('验证码')
 		self.authWindow.resizable(width = 'false', height = 'false')
+		self.authWindow.iconbitmap(self.Tools.getRes('biticon.ico'))
 		self.authWindow.config(background='#444')
 
 		winTop = Tkinter.Frame(self.authWindow, bd = 10, bg = '#444')
@@ -54,43 +61,53 @@ class GUI :
 		btn.grid(row = 2, column = 0, pady = 5)
 
 	def showLoginWindow (self, callback = '') :
-		self.slave = Tkinter.Toplevel()
-		self.slave.title('Login')
-		self.slave.resizable(width = 'false', height = 'false')
-		self.slave.geometry('250x150+200+200')
+		loginUrl = 'https://pan.baidu.com/'
+		chromeDriver = self.Tools.getRes('chromedriver')
 
-		mainFrame = Tkinter.Frame(self.slave, bd = 0, bg="#444")
-		mainFrame.pack(expand = True, fill = 'both')
+		try:
+			self.browser = webdriver.Chrome(executable_path = chromeDriver)
+			self.browser.get(loginUrl)
 
-		unameLabel = Tkinter.Label(mainFrame, text="百度用户名", fg = '#ddd', bg="#444", anchor = 'center')
-		unameLabel.grid(row = 0, column = 1, pady = 5)
+			self.browser.maximize_window() 
 
-		self.uname = Tkinter.Entry(mainFrame, width = 25, bd = 0, bg = "#222", fg = "#ddd", highlightthickness = 1, highlightcolor="#111", highlightbackground = '#111', selectbackground = '#116cd6', justify='center')
-		self.uname.grid(row = 1, column = 1, pady = 5)
+			self.slave = Tkinter.Toplevel()
+			self.slave.title('Login')
+			self.slave.resizable(width = 'false', height = 'false')
+			self.slave.iconbitmap(self.Tools.getRes('biticon.ico'))
 
-		pwdlabel = Tkinter.Label(mainFrame, text="密码", fg = '#ddd', bg="#444", anchor = 'center')
-		pwdlabel.grid(row = 2, column = 1)
+			mainFrame = Tkinter.Frame(self.slave, bd = 0, bg="#444")
+			mainFrame.pack(expand = True, fill = 'both', ipadx = '10')
 
-		self.pwd = Tkinter.Entry(mainFrame, width = 25, bd = 0, bg = "#222", fg = "#ddd", highlightthickness = 1, highlightcolor="#111", highlightbackground = '#111', selectbackground = '#116cd6', show="*", justify='center')
-		self.pwd.grid(row = 3, column = 1, pady = 5)
+			msgLabel = Tkinter.Label(mainFrame, text="请于页面中登陆百度云账号\r\n登陆成功后点击下方「获取cookies」按钮", fg = '#ddd', bg="#444", anchor = 'center')
+			msgLabel.grid(row = 0, column = 1, pady = 5)
 
-		cfgBtn = Tkinter.Button(mainFrame, text = '登陆', width = 20, fg = '#222', highlightbackground = '#444', command = lambda cb = callback : self.__getLoginInput(cb))
-		cfgBtn.grid(row = 4, column = 1, pady = 5)
+			loginBtn = Tkinter.Button(mainFrame, text = '获取cookies', width = 20, fg = '#222', highlightbackground = '#444', command = lambda cb = callback : self.__getLoginInput(cb))
+			loginBtn.grid(row = 4, column = 1, pady = 5)
 
-		mainFrame.grid_columnconfigure(0, weight=1)
-		mainFrame.grid_columnconfigure(2, weight=1)
+			mainFrame.grid_columnconfigure(0, weight=1)
+			mainFrame.grid_columnconfigure(2, weight=1)
+		except Exception as e:
+			tkMessageBox.showinfo('Notice', '以示清白：登陆功能需Chrome支持。\r\n请先安装Google Chrome浏览器。')
 
 	def __getLoginInput (self, callback = '') :
-		loginUname = self.uname.get()
-		loginPwd = self.pwd.get()
+		time.sleep(5)
 
-		data = {'uname': loginUname, 'pwd': loginPwd}
+		if self.browser.title == u'百度网盘-全部文件' :
+			cookies =  self.browser.get_cookies()
+			cookieStr = ''
+			for x in cookies :
+				cookieStr += x['name'] + '=' + x['value'] + '; '
 
-		result = callback(data)
+			result = {'stat': 1, 'msg': '获取成功'}
+		else :
+			result = {'stat': 2, 'msg': '获取失败'}
+
+		self.browser.quit()
 
 		if result['stat'] == 1 :
 			self.slave.withdraw()
 			tkMessageBox.showinfo('Success', '登陆成功')
+			callback(cookieStr)
 		else :
 			tkMessageBox.showinfo('Error', result['msg'])
 

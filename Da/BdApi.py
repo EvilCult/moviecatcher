@@ -5,7 +5,6 @@ import re
 import urllib
 import base64
 import time
-from selenium import webdriver
 
 from Lib import Tools
 import Config
@@ -25,45 +24,9 @@ class BdApi :
 		if cfgInfo['bdc'] != '' :
 			self.__getBdInfo()
 
-	def saveLogin (self, data = []) :
-		uname = data['uname']
-		pwd = data['pwd']
-
-		loginUrl = 'https://pan.baidu.com/'
-		chromeDriver = self.Tools.getRes('chromedriver')
-
-		browser = webdriver.Chrome(executable_path = chromeDriver)
-		browser.get(loginUrl)
-
-		browser.maximize_window() 
-
-		loginTab = browser.find_element_by_class_name('pass-login-tab').find_element_by_class_name('account-title')
-		loginTab.click()
-
-		unameInput = browser.find_element_by_id('TANGRAM__PSP_4__userName')
-		unameInput.send_keys(uname)
-		pwdInput = browser.find_element_by_id('TANGRAM__PSP_4__password')
-		pwdInput.send_keys(pwd)
-		btn = browser.find_element_by_id('TANGRAM__PSP_4__submit')
-		btn.click()
-
-		time.sleep(5)
-
-		if browser.title == u'百度网盘-全部文件' :
-			cookies =  browser.get_cookies()
-			cookieStr = ''
-			for x in cookies :
-				cookieStr += x['name'] + '=' + x['value'] + '; '
-			data = {'bdc': cookieStr}
-
-			self.Cfg.save(data)
-			result = {'stat': 1, 'msg': '登陆成功'}
-		else :
-			result = {'stat': 2, 'msg': '登陆失败'}
-
-		browser.quit()
-
-		return result
+	def saveLogin (self, cookieStr = '') :
+		data = {'bdc': cookieStr}
+		self.Cfg.save(data)
 
 	def addTask (self, url, auth = {}) :
 		bdApi = 'https://pan.baidu.com/rest/2.0/services/cloud_dl?channel=chunlei&web=1&app_id=250528&bdstoken={}&clienttype=0'.format(self.bdInfo['token'])

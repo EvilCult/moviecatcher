@@ -3,7 +3,6 @@
 import threading
 import time
 
-from Lib import Tools
 from Da import AppBase
 from Da import Config
 from Da import Updater
@@ -12,19 +11,14 @@ from View import UpdateInfoView
 class Update :
 
 	def __init__ (self) :
-		self.winTitle = 'Information'
-		self.Tools = Tools.Tools()
 		self.app = AppBase.info
 		self.Updater = Updater.Updater()
 		self.Cfg = Config.Config()
 		self.UdView = UpdateInfoView.GUI()
 
 	def chkUpdate (self, force = False) :
-		threading.Thread(target = lambda force = force : self.__check(force)).start()
-
-	def __check (self, force) :
-		now = int(time.time())
 		cfgInfo = self.Cfg.get()
+		now = int(time.time())
 
 		if force == False :
 			if cfgInfo['udrate'] == 1:
@@ -39,9 +33,13 @@ class Update :
 			updateTime = 0
 
 		if updateTime < now :
-			info = self.Updater.check(self.app['build'])
+			self.UdView.show()
+			threading.Thread(target = self.__check).start()
+			self.UdView.updateInfo()
 
-			self.Cfg.save({'udtime': now})
+	def __check (self) :
+		now = int(time.time())
 
-			if force == True or info['update'] == True :
-				self.UdView.show(info)
+		info = self.Updater.check(self.app['build'])
+		self.Cfg.save({'udtime': now})
+		self.UdView.udInfo = info

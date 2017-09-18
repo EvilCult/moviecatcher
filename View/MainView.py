@@ -3,12 +3,14 @@
 import Tkinter
 
 import MenuBarView
+from Lib import Tools
 from Bl import Search
 from Da import AppBase
 
 class GUI :
 
 	def __init__ (self) :
+		self.Tools = Tools.Tools()
 		self.winTitle = AppBase.info['title']
 		self.__mainWindow()
 
@@ -17,7 +19,8 @@ class GUI :
 
 		self.master.title(self.winTitle)
 		self.master.resizable(width = 'false', height = 'false')
-		self.master.geometry('400x100+500+200')
+		self.master.iconbitmap(self.Tools.getRes('biticon.ico'))
+		# self.master.geometry('400x100+500+200')
 
 		menuBar = MenuBarView.GUI(self.master)
 		menuBar.show()
@@ -26,10 +29,10 @@ class GUI :
 
 	def __topBox (self) :
 		self.mainTop = Tkinter.Frame(self.master, bd = 0, bg="#444")
-		self.mainTop.pack(expand = True, fill = 'both')
+		self.mainTop.pack(expand = True, fill = 'both', ipady = 5)
 
 		self.searchKey = Tkinter.Entry(self.mainTop, width = 40, bd = 0, bg = "#222", fg = "#ddd", highlightthickness = 1, highlightcolor="#111", highlightbackground = '#111', selectbackground = '#116cd6', justify='center')
-		self.searchKey.grid(row = 0, column = 1, pady = '20')
+		self.searchKey.grid(row = 0, column = 1, padx = '10', pady = '20')
 		self.searchKey.insert('end', '电影名/电视剧名')
 		self.searchKey.bind('<FocusIn>', self.__cleanSearchKey)
 

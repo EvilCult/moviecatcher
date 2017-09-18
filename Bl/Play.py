@@ -39,20 +39,24 @@ class Play :
 			else : 
 				tkMessageBox.showinfo('Notice', '磁力链接无法在线观看，请下载或手动上传视频至百度云！')
 		else :
-			self.__bdlogin()
+			tkMessageBox.showinfo('Error', '本功能需要云支持，请于菜单栏「Edit -> Baidu Login」登录百度云。')
 
 	def dlLink (self, target) :
-		if self.BDLogin :
-			self.downloadUrl = target[1]
-			self.dlFileName = target[0]
+		ariaStat = self.Aria.chkAria()
+		if ariaStat :
+			if self.BDLogin :
+				self.downloadUrl = target[1]
+				self.dlFileName = target[0]
 
-			linkType =  self.downloadUrl[0:6]
-			if linkType != 'magnet' :
-				threading.Thread(target = self.__bdDownload).start()
-			else : 
-				self.Aria.download(self.downloadUrl, self.dlFileName);
+				linkType =  self.downloadUrl[0:6]
+				if linkType != 'magnet' :
+					threading.Thread(target = self.__bdDownload).start()
+				else : 
+					self.Aria.download(self.downloadUrl, self.dlFileName);
+			else :
+				tkMessageBox.showinfo('Error', '本功能需要云支持，请于菜单栏「Edit -> Baidu Login」登录百度云。')
 		else :
-			self.__bdlogin()
+			tkMessageBox.showinfo('Error', 'Aria2配置不正确，请确认已运行Aria2服务。')
 
 	def showLink (self, target) :
 		self.downloadUrl = target[1]

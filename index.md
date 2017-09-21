@@ -51,6 +51,6 @@ Mac无法输入中文的问题这里有一个详细的解释[传送门](https://
 
 ### 其他
 
-[捐助](https://evilcult.github.io/moviecatcher/donate.html)
+[Buy Me A Coffee](https://evilcult.github.io/moviecatcher/donate.html)
 
 

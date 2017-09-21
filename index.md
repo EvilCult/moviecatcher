@@ -12,13 +12,13 @@
 
 整合资源站点及网盘离线功能，通过标题搜索电影/美剧的下载资源，通过网盘在线播放，或获取网盘离线的真实下载地址，脱离客户端，实现离线下载功能。
 
-后期初步仅支持【搜索】，【离线下载】，【在线播放】，后期会逐渐加入新功能，以及扩展资源搜索范围。
+初步仅支持【搜索】，【离线下载】，【在线播放】，后期会逐渐加入新功能，以及扩展资源搜索范围。
 
 ![Image](https://evilcult.github.io/moviecatcher/img/preview.jpg)
 
-Mac版App下载：[下载地址](https://github.com/EvilCult/moviecatcher/releases/tag/Beta0.9.5(29BA0)).
+macOS App 下载：[下载地址](https://github.com/EvilCult/moviecatcher/releases/tag/Beta0.9.6(29BA6)).
 
-Windows版exe暂不提供，带后期开发.
+Windows Exe 下载：[下载地址](https://github.com/EvilCult/moviecatcher/releases/tag/Beta0.9.6(29BA6)).
 
 ### 使用说明
 
@@ -26,16 +26,20 @@ Windows版exe暂不提供，带后期开发.
 
 ### 系统要求
 
-App ： MacOs 10.12 及以上
+Mac ： macOS 10.10 及以上
+
+Win ： Windows7 sp1 及以上,
+
+### 开发环境
 
 Python ： 2.7.10
 
 依赖包 : Pillow, selenium
 
 
-### 系统要求
+### 附加程序需求
 
-离线下载请搭配[Aria2Gui](https://github.com/yangshun1029/aria2gui/releases), 强烈推荐.
+Chrome ： 59.0.3071.0及以上
 
 ### 附注
 

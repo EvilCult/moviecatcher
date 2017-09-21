@@ -45,7 +45,7 @@ Chrome ： 59.0.3071.0及以上
 
 源代码已上传至[GitHub](https://github.com/EvilCult/moviecatcher).如对登陆不放心，可详查源代码，并且，「.spec」文件已上传，可使用Pyinstaller自行打包使用。
 
-Mac需要注意，系统的Tcl/Tk版本存在bug，Entry无法输入中文，请更新至8.5.18可解决此问题。（新系统有rootless，先关闭后，再替换'/system/library/frameworks'目录下的文件（目前感觉最完美的解决方案，如有更好请告诉我））
+Mac无法输入中文的问题这里有一个详细的解释[传送门](https://github.com/EvilCult/moviecatcher/wiki/关于Mac版不能输入中文的问题%E3%80%82)，（目前感觉最完美的解决方案，如有更好请告诉我））
 
 本软件其实就是个自动操作流，如果还是不放心填密码，来来来，我教你如何人工手动来实现。。。
 

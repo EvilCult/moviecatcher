@@ -113,8 +113,8 @@ class Config :
 
 		bdc = ''
 		path = 'MovieCatcherFiles'
-		ariarpc = 'http://localhost:6800/jsonrpc'
-		ariapath = '/Applications/Aria2GUI.app'
+		ariarpc = ''
+		ariapath = ''
 		udrate = '2'
 		udtime = str(int(time.time()))
 

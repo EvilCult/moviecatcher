@@ -39,7 +39,7 @@ class GUI :
 		Cfg = Config.Config()
 		editMenu.add_command(label = "Config", command = Cfg.show)
 		editMenu.add_separator()
-		editMenu.add_command(label = "Baidu Login", command = lambda cb = BdApi.BdApi().saveLogin : PlayerView.GUI().showLoginWindow(cb))
+		editMenu.add_command(label = "Baidu Login", command = lambda cb = BdApi.BdApi().saveLogin : PlayerView.GUI(self.master).showLoginWindow(cb))
 		menubar.add_cascade(label = "Edit", menu = editMenu)
 
 		winMenu = Tkinter.Menu(menubar, tearoff = 0)

@@ -6,7 +6,6 @@ import tkMessageBox
 import time
 
 from Da import BdApi
-from Da import Aria2
 from Da import Config
 from View import PlayerView
 
@@ -26,37 +25,36 @@ class Play :
 		else :
 			self.BDLogin = True
 
-		self.Aria = Aria2.Aria2()
-		self.Player = PlayerView.GUI()
+		self.Player = PlayerView.GUI(self.master)
 
 	def watchLink (self, target) :
+		self.Player.watchLinkStat = {'err': 0, 'msg': ''}
 		if self.BDLogin :
 			self.downloadUrl = target[1]
 
+			self.Player.showWatchLink()
 			linkType =  self.downloadUrl[0:6]
 			if linkType != 'magnet' : 
 				threading.Thread(target = self.__bdPlay).start()
 			else : 
-				tkMessageBox.showinfo('Notice', '磁力链接无法在线观看，请下载或手动上传视频至百度云！')
+				self.Player.watchLinkStat['err'] = 2
 		else :
 			tkMessageBox.showinfo('Error', '本功能需要云支持，请于菜单栏「Edit -> Baidu Login」登录百度云。')
 
 	def dlLink (self, target) :
-		ariaStat = self.Aria.chkAria()
-		if ariaStat :
-			if self.BDLogin :
-				self.downloadUrl = target[1]
-				self.dlFileName = target[0]
+		self.Player.downLinkStat = {'err': 0, 'msg': ''}
+		if self.BDLogin :
+			self.downloadUrl = target[1]
+			self.dlFileName = target[0]
 
-				linkType =  self.downloadUrl[0:6]
-				if linkType != 'magnet' :
-					threading.Thread(target = self.__bdDownload).start()
-				else : 
-					self.Aria.download(self.downloadUrl, self.dlFileName);
-			else :
-				tkMessageBox.showinfo('Error', '本功能需要云支持，请于菜单栏「Edit -> Baidu Login」登录百度云。')
+			self.Player.showCloudLink()
+			linkType =  self.downloadUrl[0:6]
+			if linkType != 'magnet' :
+				threading.Thread(target = self.__bdDownload).start()
+			else : 
+				self.Player.downLinkStat['err'] = 2
 		else :
-			tkMessageBox.showinfo('Error', 'Aria2配置不正确，请确认已运行Aria2服务。')
+			tkMessageBox.showinfo('Error', '本功能需要云支持，请于菜单栏「Edit -> Baidu Login」登录百度云。')
 
 	def showLink (self, target) :
 		self.downloadUrl = target[1]
@@ -71,15 +69,17 @@ class Play :
 			taskID = result['taskID']
 			playUrl = self.BD.getPlayUrl(taskID)
 			if playUrl != '' :
-				webbrowser.open_new(playUrl)
+				self.Player.watchLinkStat['msg'] = playUrl
 			else :
-				tkMessageBox.showinfo('Error', '云端未能完成该任务，请等待云端下载完成or换个资源试试！')
+				self.Player.watchLinkStat['err'] = 1
 		else :
 			self.bdAuth = {
 				'vcode': result['vcode'],
 				'input': ''
 			}
-			self.__authCode(result['img'], 'play')
+			self.Player.watchLinkStat['err'] = 3
+			self.Player.watchLinkStat['msg'] = result['img']
+			self.Player.authDownload = lambda authKey = '' : self.__authPlay(authKey)
 
 	def __bdDownload (self) :
 		result = self.BD.addTask(self.downloadUrl, self.bdAuth)
@@ -87,15 +87,17 @@ class Play :
 			taskID = result['taskID']
 			dlUrl = self.BD.getDlUrl(taskID)
 			if dlUrl != '' :
-				self.Aria.download(dlUrl, self.dlFileName)
+				self.Player.downLinkStat['msg'] = dlUrl
 			else :
-				tkMessageBox.showinfo('Error', '云端未能完成该任务，请等待云端下载完成or换个资源试试！')
+				self.Player.downLinkStat['err'] = 1
 		else :
 			self.bdAuth = {
 				'vcode': result['vcode'],
 				'input': ''
 			}
-			self.__authCode(result['img'], 'download')
+			self.Player.downLinkStat['err'] = 3
+			self.Player.downLinkStat['msg'] = result['img']
+			self.Player.authDownload = lambda authKey = '' : self.__authDownload(authKey)
 
 	def __authCode (self, imgUrl, authType) :
 		authKey = ''
@@ -108,11 +110,13 @@ class Play :
 		self.Player.showAuthCode(imgUrl)
 
 	def __authPlay (self, authKey) :
+		self.Player.watchLinkStat = {'err': 0, 'msg': ''}
 		self.bdAuth['input'] = authKey
-
+		self.Player.showWatchLink()
 		threading.Thread(target = self.__bdPlay).start()
 
 	def __authDownload (self, authKey) :
+		self.Player.downLinkStat = {'err': 0, 'msg': ''}
 		self.bdAuth['input'] = authKey
-
+		self.Player.showCloudLink()
 		threading.Thread(target = self.__bdDownload).start()

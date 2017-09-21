@@ -19,8 +19,8 @@ class GUI :
 
 		self.master.title(self.winTitle)
 		self.master.resizable(width = 'false', height = 'false')
-		self.master.iconbitmap(self.Tools.getRes('biticon.ico'))
-		# self.master.geometry('400x100+500+200')
+		if self.Tools.isWin() :
+			self.master.iconbitmap(self.Tools.getRes('biticon.ico'))
 
 		menuBar = MenuBarView.GUI(self.master)
 		menuBar.show()

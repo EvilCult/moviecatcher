@@ -18,7 +18,8 @@ class GUI :
 		self.slave = Tkinter.Toplevel()
 		self.slave.title(self.winTitle)
 		self.slave.resizable(width = 'false', height = 'false')
-		self.slave.iconbitmap(self.Tools.getRes('biticon.ico'))
+		if self.Tools.isWin() :
+			self.slave.iconbitmap(self.Tools.getRes('biticon.ico'))
 
 		info = [
 			'简介: 就是瞎做来看电影的。',

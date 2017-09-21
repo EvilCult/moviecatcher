@@ -44,9 +44,9 @@ class Aria2 :
 		rpc = self.__getRpc(fileUrl, fileName)
 		dlStat = self.Tools.getPage(self.ariaHost, [], rpc)
 
-		try:
+		if self.ariaGuiPat != '':
 			os.system('open -a "' + str(self.ariaGuiPath) + '"')
-		except Exception as e:
+		else :
 			webbrowser.open_new('http://aria2c.com/')
 
 	def __getRpc (self, fileUrl, fileName) :

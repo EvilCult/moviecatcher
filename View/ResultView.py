@@ -19,7 +19,8 @@ class GUI :
 		rstWindow = Tkinter.Toplevel()
 		rstWindow.title('资源列表')
 		rstWindow.resizable(width = 'false', height = 'false')
-		rstWindow.iconbitmap(self.Tools.getRes('biticon.ico'))
+		if self.Tools.isWin() :
+			rstWindow.iconbitmap(self.Tools.getRes('biticon.ico'))
 		
 		titleFrame = Tkinter.Frame(rstWindow, bd = 0, bg="#444")
 		titleFrame.pack(expand = True, fill = 'both')
@@ -55,7 +56,8 @@ class GUI :
 		self.resWindow = Tkinter.Toplevel()
 		self.resWindow.title(self.target['title'])
 		self.resWindow.resizable(width = 'false', height = 'false')
-		self.resWindow.iconbitmap(self.Tools.getRes('biticon.ico'))
+		if self.Tools.isWin() :
+			self.resWindow.iconbitmap(self.Tools.getRes('biticon.ico'))
 		self.resWindow.config(background='#444')
 
 		self.resFrame = Tkinter.Frame(self.resWindow, bd = 0, bg="#444")

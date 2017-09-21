@@ -18,7 +18,8 @@ class GUI :
 		self.slave = Tkinter.Toplevel()
 		self.slave.title(self.winTitle)
 		self.slave.resizable(width = 'false', height = 'false')
-		self.slave.iconbitmap(self.Tools.getRes('biticon.ico'))
+		if self.Tools.isWin() :
+			self.slave.iconbitmap(self.Tools.getRes('biticon.ico'))
 
 		self.frame = Tkinter.Frame(self.slave, bd = 0, bg="#444")
 		self.frame.pack(expand = True, fill = 'both', ipadx = '5', ipady = '5')
@@ -57,5 +58,5 @@ class GUI :
 			self.timer = self.frame.after(50, self.updateInfo)
 
 	def close (self) :
-		self.slave.withdraw()
+		self.slave.destroy()
 

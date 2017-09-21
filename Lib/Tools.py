@@ -5,6 +5,7 @@ import urllib2
 import re
 import ssl
 import os
+import platform
 import sys
 
 class Tools :
@@ -69,3 +70,11 @@ class Tools :
 		filePath = os.path.join(base_path, fileName)
 
 		return filePath
+
+	def isWin (self) :
+		osType = platform.system()
+
+		if osType == 'Windows' :
+			return True
+		else :
+			return False

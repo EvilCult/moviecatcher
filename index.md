@@ -28,7 +28,11 @@ Windows Exe 下载：[下载地址](https://github.com/EvilCult/moviecatcher/rel
 
 Mac ： macOS 10.10 及以上
 
-Win ： Windows7 sp1 及以上,
+Win ： Windows7 sp1 及以上
+
+### 更新记录
+
+[传送门](https://evilcult.github.io/moviecatcher/update-log.html).
 
 ### 开发环境
 

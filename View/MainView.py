@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import Tkinter
+import tkMessageBox
 
 import MenuBarView
 from Lib import Tools
 from Bl import Search
 from Da import AppBase
+from Da import Config
 
 class GUI :
 
@@ -22,10 +24,14 @@ class GUI :
 		if self.Tools.isWin() :
 			self.master.iconbitmap(self.Tools.getRes('biticon.ico'))
 
-		menuBar = MenuBarView.GUI(self.master)
-		menuBar.show()
-
 		self.__topBox()
+
+		self.Cfg = Config.Config()
+		if self.Cfg.connStat :
+			menuBar = MenuBarView.GUI(self.master)
+			menuBar.show()
+		else :
+			tkMessageBox.showinfo('Error', '创建配置文件失败。\r\n请检查「~/Library/Application Support」文件夹是否有操作权限！')
 
 	def __topBox (self) :
 		self.mainTop = Tkinter.Frame(self.master, bd = 0, bg="#444")

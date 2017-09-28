@@ -81,7 +81,7 @@ class Config :
 		try:
 			if not os.path.exists(self.configPath) :
 				os.makedirs(self.configPath)
-			self.configPath += 'Config'
+			self.configPath = os.path.join(self.configPath, 'Config')
 
 			self.conn = sqlite3.connect(self.configPath, check_same_thread = False)
 			self.cur = self.conn.cursor()
@@ -132,10 +132,8 @@ class Config :
 	def __getConfigPath (self) :
 		osType = platform.system()
 
-		if osType == 'Linux' :
-			self.configPath = '/usr/local/bin/' + self.appTitle + '/'
-		elif osType == 'Darwin' :
-			self.configPath = '/Users/' + self.USER + '/Library/Application Support/' + self.appTitle + '/'
+		if osType == 'Darwin' :
+			self.configPath = os.path.join('/Users', self.USER, 'Library', 'Application Support', self.appTitle)
 		elif osType == 'Windows' :
 			sysDrive = os.getenv("SystemDrive")
-			self.configPath = sysDrive + '\\Users\\' + self.USER + '\\Documents\\' + self.appTitle + '\\'
+			self.configPath = os.path.join(sysDrive, os.sep, 'Users', self.USER, 'Documents', self.appTitle)

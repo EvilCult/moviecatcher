@@ -34,7 +34,7 @@ class Tools :
 			header = response.headers
 			body = response.read()
 			code = response.code
-		except urllib2.HTTPError, e:
+		except urllib2.HTTPError as e:
 			header = e.headers
 			body = e.read()
 			code = e.code

@@ -9,6 +9,11 @@ import time
 from Lib import Tools
 import Config
 
+try:
+	xrange          # Python 2
+except NameError:
+	xrange = range  # Python 3
+
 class BdApi :
 
 	def __init__ (self) :

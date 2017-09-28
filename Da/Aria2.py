@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import json
 import os
+import webbrowser
 
 from Lib import Tools
 import Config
@@ -33,10 +34,7 @@ class Aria2 :
 
 		try:
 			ariaStat = self.Tools.getPage(self.ariaHost, [], ariaRpc)
-			if ariaStat['code'] == 200 :
-				return True
-			else :
-				return False
+			return ariaStat['code'] == 200
 		except Exception as e:
 			return False
 

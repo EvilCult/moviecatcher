@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import getpass
 import os
 import sqlite3
 import platform
@@ -12,7 +11,6 @@ from Da import AppBase
 class Config :
 
 	def __init__(self):
-		self.USER = getpass.getuser()
 		self.appTitle = AppBase.info['title']
 		self.__getConfigPath()
 
@@ -131,9 +129,10 @@ class Config :
 
 	def __getConfigPath (self) :
 		osType = platform.system()
+		homeDir = os.path.expanduser('~')
 
 		if osType == 'Darwin' :
-			self.configPath = os.path.join('/Users', self.USER, 'Library', 'Application Support', self.appTitle)
+			self.configPath = os.path.join(homeDir, 'Library', 'Application Support', self.appTitle)
 		elif osType == 'Windows' :
 			sysDrive = os.getenv("SystemDrive")
-			self.configPath = os.path.join(sysDrive, os.sep, 'Users', self.USER, 'Documents', self.appTitle)
+			self.configPath = os.path.join(homeDir, 'Documents', self.appTitle)

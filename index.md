@@ -30,7 +30,7 @@ Windows Exe 下载：[下载地址](https://github.com/EvilCult/moviecatcher/rel
 
 Mac ： macOS 10.10 及以上
 
-Win ： Windows7 sp1 及以上
+Win ： Windows7 sp1 及以上(不支持32位系统)
 
 ### 更新记录
 

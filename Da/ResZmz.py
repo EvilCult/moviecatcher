@@ -58,12 +58,22 @@ class Searcher :
 
 			for x in resultlist :
 				resultType = re.findall(r"<em.*?>([\s\S]*?)</em>", x)[0]
-				if resultType == '电影' or resultType == '电视剧': 
+				
+				if resultType == '电影':
 					self.result.append({
-						'title': re.findall(r"list_title\">([\s\S]*?)</strong>", x)[0],
+						'title': r'[电影]'+re.findall(r"list_title\">([\s\S]*?)</strong>", x)[0],
 						'url': 'http://www.zimuzu.tv' + re.findall(r"<a href=\"([\s\S]*?)\"><img", x)[0],
 						'source' : 'zmz'
 					})
+				elif resultType == '电视剧':
+					self.result.append({
+						'title': r'[电视剧]'+re.findall(r"list_title\">([\s\S]*?)</strong>", x)[0],
+						'url': 'http://www.zimuzu.tv' + re.findall(r"<a href=\"([\s\S]*?)\"><img", x)[0],
+						'source' : 'zmz'
+					})
+				else:
+					pass
+
 		except Exception as e:
 			pass
 
@@ -103,5 +113,7 @@ class Searcher :
 				
 		except Exception as e:
 			pass
+		result_set = list(set(result))
+		result_set.sort(key = result.index)
 
-		return result
+		return result_set

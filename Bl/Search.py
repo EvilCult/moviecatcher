@@ -26,13 +26,6 @@ class Search :
 
 		self.ResWindow.updateList()
 
-	# show douban web
-	def showDBResult (self, key) :
-		searchKey = key.get()
-
-		url_ = 'https://www.douban.com/search?q=' + urllib.quote_plus(searchKey.encode('utf8'))
-		webbrowser.open_new(url_)
-
 	def __searchMov (self, key) :
 		# 开启两重匹配找寻
 		self.mainSearcher = ResZmz.Searcher()

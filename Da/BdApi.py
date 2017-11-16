@@ -28,7 +28,51 @@ class BdApi :
 		data = {'bdc': cookieStr}
 		self.Cfg.save(data)
 
-	def addTask (self, url, auth = {}) :
+	def getBtInfo (self, url, auth = {}) :
+		bdApi = 'https://pan.baidu.com/rest/2.0/services/cloud_dl?channel=chunlei&web=1&app_id=250528&bdstoken={}&clienttype=0'.format(self.bdInfo['token'])
+
+		postData = {
+			'method' : 'query_magnetinfo',
+			'app_id' : '250528',
+			'source_url' : url,
+			'save_path' : '/' + self.bdInfo['saveDir'] + '/',
+			'type' : '4'
+		}
+
+		if auth != {} :
+			postData['input'] = auth['input']
+			postData['vcode'] = auth['vcode']
+
+		html = self.Tools.getPage(bdApi, self.requestHeader, postData)
+		if html['code'] == 200 : 
+			body = html['body']
+			info = json.JSONDecoder().decode(body)
+
+			idx = 1 
+			for x in info:
+				fileName = x['file_name'].split('/')
+				fileName.pop(0)
+				fileName = '/'.join(fileName)
+				# some code...
+				idx += 1
+
+			result = {
+				'err': 0,
+				'btInfo': info['magnet_info']
+			}
+		else :
+			body = html['body']
+			info = json.JSONDecoder().decode(body)
+
+			result = {
+				'err': 1,
+				'vcode': info['vcode'],
+				'img': info['img']
+			}
+
+		return result
+
+	def addTask (self, url, auth = {}, btIdx = 0) :
 		bdApi = 'https://pan.baidu.com/rest/2.0/services/cloud_dl?channel=chunlei&web=1&app_id=250528&bdstoken={}&clienttype=0'.format(self.bdInfo['token'])
 		postData = {
 			'method' : 'add_task',

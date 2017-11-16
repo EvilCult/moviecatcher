@@ -3,7 +3,7 @@
 import threading
 import webbrowser
 from Da import ResZmz
-from Da import ResGdyy
+from Da import ResVhao
 from View import ResultView
 import urllib
 
@@ -29,7 +29,7 @@ class Search :
 	def __searchMov (self, key) :
 		# 开启两重匹配找寻
 		self.mainSearcher = ResZmz.Searcher()
-		self.subSearcher = ResGdyy.Searcher()
+		self.subSearcher = ResVhao.Searcher()
 		mainResult = self.mainSearcher.find(key)
 		subResult = self.subSearcher.find(key)
 		

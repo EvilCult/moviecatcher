@@ -30,17 +30,19 @@ class Searcher :
 		post = {'keyword': str(keyword)}
 		html = self.Tools.getPage(url, header, post)
 
-		data = re.findall(r"<a href=\"(thread-\d*?.htm)\">(.*?)</a>", html['body'])
+		print html
 
-		try:
-			for x in data :
-				self.result.append({
-					'title': x[1],
-					'url': 'http://www.3gdyy.com/' + x[0],
-					'source': 'gdyy'
-				})
-		except Exception as e:
-			pass
+		# data = re.findall(r"<a href=\"(thread-\d*?.htm)\">(.*?)</a>", html['body'])
+
+		# try:
+		# 	for x in data :
+		# 		self.result.append({
+		# 			'title': x[1],
+		# 			'url': 'http://www.3gdyy.com/' + x[0],
+		# 			'source': 'gdyy'
+		# 		})
+		# except Exception as e:
+		# 	pass
 
 		return self.result
 

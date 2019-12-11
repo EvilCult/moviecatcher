@@ -55,3 +55,4 @@ class GUI :
 
 		titleFrame.grid_columnconfigure(0, weight=1)
 		titleFrame.grid_columnconfigure(2, weight=1)
+#代码写得太干净了，佩服！

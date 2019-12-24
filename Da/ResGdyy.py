@@ -30,7 +30,7 @@ class Searcher :
 		post = {'keyword': str(keyword)}
 		html = self.Tools.getPage(url, header, post)
 
-		print html
+		print(html)
 
 		# data = re.findall(r"<a href=\"(thread-\d*?.htm)\">(.*?)</a>", html['body'])
 

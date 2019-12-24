@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import Tkinter
-import tkMessageBox
+import tkinter
+import tkinter.messagebox
 
-import MenuBarView
+from . import MenuBarView
 from Lib import Tools
 from Bl import Search
 from Da import AppBase
@@ -18,7 +18,7 @@ class GUI :
 
 	def __mainWindow (self) :
 		# master是TK框架的一个主线索，GUI的配置项都是从master着手
-		self.master = Tkinter.Tk()
+		self.master = tkinter.Tk()
 
 		self.master.title(self.winTitle)
 		self.master.resizable(width = 'false', height = 'false')
@@ -32,14 +32,14 @@ class GUI :
 			menuBar = MenuBarView.GUI(self.master)
 			menuBar.show()
 		else :
-			tkMessageBox.showinfo('Error', '创建配置文件失败。\r\n请检查「~/Library/Application Support」文件夹是否有操作权限！')
+			tkinter.messagebox.showinfo('Error', '创建配置文件失败。\r\n请检查「~/Library/Application Support」文件夹是否有操作权限！')
 
 	def __topBox (self) :
 		# TK框架里面的内容安排
-		self.mainTop = Tkinter.Frame(self.master, bd = 0, bg="#444")
+		self.mainTop = tkinter.Frame(self.master, bd = 0, bg="#444")
 		self.mainTop.pack(expand = True, fill = 'both', ipady = 5)
 
-		self.searchKey = Tkinter.Entry(
+		self.searchKey = tkinter.Entry(
 			self.mainTop, 
 			width = 40, 
 			bd = 0, 
@@ -56,13 +56,13 @@ class GUI :
 		self.searchKey.bind('<FocusIn>', self.__cleanSearchKey)  # 事件监听绑定
 
 		Searcher = Search.Search(self.master)  # 实例化search类
-		self.sBtn = Tkinter.Button(
+		self.sBtn = tkinter.Button(
 			self.mainTop, 
 			text = '搜索电影', 
 			width = 10, 
 			fg = '#222', 
 			highlightbackground = '#444', 
-			command = lambda key = self.searchKey : tkMessageBox.showinfo('Error', '请输入想要查询的电视剧/电影名再进行查询') if self.searchKey.get() == u'电影名/电视剧名' or self.searchKey.get() == '' else Searcher.showResult(key)
+			command = lambda key = self.searchKey : tkinter.messagebox.showinfo('Error', '请输入想要查询的电视剧/电影名再进行查询') if self.searchKey.get() == '电影名/电视剧名' or self.searchKey.get() == '' else Searcher.showResult(key)
 		)
 		self.sBtn.grid(row = 1, column = 1)
 
@@ -70,10 +70,10 @@ class GUI :
 		self.mainTop.grid_columnconfigure(2, weight=1)
 
 	def __cleanSearchKey(self, e) : 
-		key = self.searchKey.get() # 获取文件框的值
+		key = self.searchKey.get()			 	# 获取文件框的值
 
-		if key == u'电影名/电视剧名' :
-			self.searchKey.delete('0', 'end') # 删除所有值
+		if key == '电影名/电视剧名' :
+			self.searchKey.delete('0', 'end') 	# 删除所有值
 
 	def run (self) :
 		self.master.mainloop()  # tk的基本格式，启动

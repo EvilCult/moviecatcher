@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 import json
 import re
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import base64
 import time
 
 from Lib import Tools
-import Config
+from . import Config
 
 class BdApi :
 
@@ -121,7 +121,7 @@ class BdApi :
 		try:
 			for x in taskInfo :
 				if taskID == x['task_id'] :
-					savePath = urllib.quote(x['save_path'].encode("UTF8"))
+					savePath = urllib.parse.quote(x['save_path'].encode("UTF8"))
 					playUrl = 'https://yun.baidu.com/play/video#video/path=' + savePath
 					break 
 		except Exception as e:
@@ -134,9 +134,9 @@ class BdApi :
 		fID = self.__tIdTofId(taskID)
 		fID = '["' + str(fID) + '"]'
 		bdApi = 'https://yun.baidu.com/api/download?type=dlink&fidlist={}&timestamp={}&sign={}&channel=chunlei&clienttype=0&web=1&app_id=250528'.format(
-			urllib.quote(fID),
+			urllib.parse.quote(fID),
 			self.bdInfo['time'],
-			urllib.quote(self.bdInfo['sign'])
+			urllib.parse.quote(self.bdInfo['sign'])
 		)
 		
 		html = self.Tools.getPage(bdApi, self.requestHeader)
@@ -173,7 +173,7 @@ class BdApi :
 		]
 		html = self.Tools.getPage(bdApi, self.requestHeader)
 
-		yunData = re.findall(r"var context\=([\s\S]*?)yunData", html['body'])
+		yunData = re.findall(r"var context\=([\s\S]*?)yunData", html['body'])                      
 
 		if len(yunData) > 0 :
 			yunData = yunData[0]
@@ -194,12 +194,12 @@ class BdApi :
 			o = ''
 			v = len(j)
 
-			for q in xrange(256):
+			for q in range(256):
 				a.append(ord(j[q % v]))
 				p.append(q)
 
 			u = 0
-			for q in xrange(256):
+			for q in range(256):
 				u = (u + p[q] + a[q]) % 256
 				t = p[q]
 				p[q] = p[u]
@@ -207,7 +207,7 @@ class BdApi :
 
 			i = 0
 			u = 0
-			for q in xrange(len(r)):
+			for q in range(len(r)):
 				i = (i + 1) % 256
 				u = (u + p[i]) % 256
 				t = p[i]
@@ -216,7 +216,7 @@ class BdApi :
 				k = p[((p[i] + p[u]) % 256)]
 				o += chr(ord(r[q]) ^ k)
 
-			return base64.b64encode(o)
+			return base64.b64encode(o.encode())											#升级到python3需要加上.encode()
 
 	def __tIdTofId (self, taskID) :
 		taskID = str(taskID)

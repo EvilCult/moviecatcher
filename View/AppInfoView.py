@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import Tkinter
+import tkinter
 import PIL.Image
 import PIL.ImageTk
 
@@ -15,7 +15,7 @@ class GUI :
 		self.app = AppBase.info
 
 	def show (self) :
-		self.slave = Tkinter.Toplevel()
+		self.slave = tkinter.Toplevel()
 		self.slave.title(self.winTitle)
 		self.slave.resizable(width = 'false', height = 'false')
 		if self.Tools.isWin() :
@@ -28,29 +28,29 @@ class GUI :
 			'特别感谢: cclauss (https://github.com/cclauss)\nMrLevo520 (https://github.com/MrLevo520)',
 		]
 
-		titleFrame = Tkinter.Frame(self.slave, bd = 0, bg="#444")
+		titleFrame = tkinter.Frame(self.slave, bd = 0, bg="#444")
 		titleFrame.pack(expand = True, fill = 'both', ipadx = '5')
 
-		titleLabel = Tkinter.Label(titleFrame, text="Movie Catcher", fg = '#ddd', bg="#444", font = ("Helvetica", "16", 'bold'), anchor = 'center')
+		titleLabel = tkinter.Label(titleFrame, text="Movie Catcher", fg = '#ddd', bg="#444", font = ("Helvetica", "16", 'bold'), anchor = 'center')
 		titleLabel.grid(row = 0, column = 1, pady = 5)
 
-		warnlabel = Tkinter.Label(titleFrame, text="By ~EvilCult", fg = '#ddd', bg="#444", font = ("Helvetica", "10"), anchor = 'center')
+		warnlabel = tkinter.Label(titleFrame, text="By ~EvilCult", fg = '#ddd', bg="#444", font = ("Helvetica", "10"), anchor = 'center')
 		warnlabel.grid(row = 1, column = 1)
 
 		pilImage = PIL.Image.open(self.Tools.getRes('logo.png'))
 		logoImg = PIL.ImageTk.PhotoImage(pilImage)
 
-		imglabel = Tkinter.Label(titleFrame, bd = 0, bg = '#444', image = logoImg, anchor = 'center')
+		imglabel = tkinter.Label(titleFrame, bd = 0, bg = '#444', image = logoImg, anchor = 'center')
 		imglabel.img = logoImg
 		imglabel.grid(row = 2, column = 1, pady = 5)
 
-		information = Tkinter.Text(titleFrame, height = 14, width = 35, bd = 0, fg = '#ddd', bg="#222", highlightthickness = 1, highlightcolor="#111", highlightbackground = '#111', selectbackground = '#116cd6', font = ("Helvetica", "12"))
+		information = tkinter.Text(titleFrame, height = 14, width = 35, bd = 0, fg = '#ddd', bg="#222", highlightthickness = 1, highlightcolor="#111", highlightbackground = '#111', selectbackground = '#116cd6', font = ("Helvetica", "12"))
 		information.grid(row = 3, column = 1)
 		for n in info :
 			information.insert('end', n.split(': ')[0] + ':\n')
 			information.insert('end', n.split(': ')[1] + '\r')
 
-		versionlabel = Tkinter.Label(titleFrame, text="Version: " + str(self.app['ver']) + ' (' + str(self.app['build']) + ')', fg = '#ddd', bg="#444", font = ("Helvetica", "10"), anchor = 'center')
+		versionlabel = tkinter.Label(titleFrame, text="Version: " + str(self.app['ver']) + ' (' + str(self.app['build']) + ')', fg = '#ddd', bg="#444", font = ("Helvetica", "10"), anchor = 'center')
 		versionlabel.grid(row = 4, column = 1)
 
 		titleFrame.grid_columnconfigure(0, weight=1)

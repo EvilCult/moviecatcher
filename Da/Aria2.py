@@ -5,7 +5,7 @@ import os
 import webbrowser
 
 from Lib import Tools
-import Config
+from . import Config
 
 class Aria2 :
 

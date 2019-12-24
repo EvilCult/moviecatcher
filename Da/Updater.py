@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import json
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 
 class Updater :
 
@@ -29,8 +29,8 @@ class Updater :
 
 	def __getServerInfo (self) :
 		try:
-			response = urllib2.urlopen(self.updateSource, timeout = 3)
-			jsonStr = response.read()
+			response = urllib.request.urlopen(self.updateSource, timeout = 3)
+			jsonStr = response.read().decode('utf-8')
 			appInfo =  json.JSONDecoder().decode(jsonStr)
 		except Exception as e:
 			appInfo = False

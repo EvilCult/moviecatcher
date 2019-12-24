@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import threading
 import webbrowser
-import tkMessageBox
+import tkinter.messagebox
 import time
 
 from Da import BdApi
@@ -39,7 +39,7 @@ class Play :
 			else : 
 				self.Player.watchLinkStat['err'] = 2
 		else :
-			tkMessageBox.showinfo('Error', '本功能需要云支持，请于菜单栏「Edit -> Baidu Login」登录百度云。')
+			tkinter.messagebox.showinfo('Error', '本功能需要云支持，请于菜单栏「Edit -> Baidu Login」登录百度云。')
 
 	def dlLink (self, target) :
 		self.Player.downLinkStat = {'err': 0, 'msg': ''}
@@ -54,7 +54,7 @@ class Play :
 			else : 
 				self.Player.downLinkStat['err'] = 2
 		else :
-			tkMessageBox.showinfo('Error', '本功能需要云支持，请于菜单栏「Edit -> Baidu Login」登录百度云。')
+			tkinter.messagebox.showinfo('Error', '本功能需要云支持，请于菜单栏「Edit -> Baidu Login」登录百度云。')
 
 	def showLink (self, target) :
 		self.downloadUrl = target[1]

@@ -5,7 +5,7 @@ import webbrowser
 from Da import ResZmz
 from Da import ResVhao
 from View import ResultView
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 class Search :
 
@@ -15,7 +15,7 @@ class Search :
 
 	def showResult (self, key) :
 		searchKey = key.get()
-
+	
 		self.ResWindow.showList(searchKey)
 		self.ResWindow.listRst = ''
 		data = ''

@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import urllib
-import urllib2
+import urllib.request, urllib.parse, urllib.error
+import urllib.request, urllib.error, urllib.parse
 import re
 import ssl
 import os
 import platform
 import sys
+import chardet        #判断网页编码方式的库
+import string
 
 class Tools :
 
@@ -14,12 +16,13 @@ class Tools :
 		pass
 
 	def getPage (self, url, requestHeader = [], postData = {}) :
+		url = urllib.parse.quote_plus(url,safe=string.printable)			#解决了不能打开含中文网址的问题，同时“空格”由“+”代替
 		if postData == {} :
-			request = urllib2.Request(url)
-		elif isinstance(postData, basestring) :
-			request = urllib2.Request(url, postData)
+			request = urllib.request.Request(url)
+		elif isinstance(postData, str) :
+			request = urllib.request.Request(url, postData)
 		else :
-			request = urllib2.Request(url, urllib.urlencode(postData))
+			request = urllib.request.Request(url, urllib.parse.urlencode(postData).encode('utf-8'))
 
 		for x in requestHeader :
 			headerType = x.split(':')[0]
@@ -30,11 +33,13 @@ class Tools :
 			ctx = ssl.create_default_context()
 			ctx.check_hostname = False
 			ctx.verify_mode = ssl.CERT_NONE
-			response = urllib2.urlopen(request, context = ctx)
+			response = urllib.request.urlopen(request, context = ctx)
 			header = response.headers
 			body = response.read()
+			jiema =  lambda coding : 'gbk' if coding=='GB2312' else coding		#加上编码，这里需要把GB2312转为GBK编码
+			body = body.decode(jiema(chardet.detect(body)['encoding']))			#加上编码解码
 			code = response.code
-		except urllib2.HTTPError as e:
+		except urllib.error.HTTPError as e:
 			header = e.headers
 			body = e.read()
 			code = e.code

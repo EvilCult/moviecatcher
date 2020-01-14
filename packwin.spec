@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['bl\\app.py'],
-             pathex=['c:\\Python\\msv3'],
+             pathex=['C:\\Users\\lwpo2\\AppData\\Local\\Programs\\Python\\Python37\\Lib\\site-packages','C:\\Users\\lwpo2\\Downloads\\moviecatcher-master'],
              binaries=None,
              datas=[('Resources\\logo.png', 'RES'), ('Resources\\biticon.ico', 'RES'), ('Resources\\chromedriver.exe', 'RES')],
              hiddenimports=[],

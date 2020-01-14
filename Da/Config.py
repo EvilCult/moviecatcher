@@ -57,7 +57,7 @@ class Config :
 		result = {'stat' : 1, 'msg' : ''}
 
 		param = ''
-		for k, v in data.iteritems() :
+		for k, v in list(data.items()) :
 		   param +=  ", " + k + " = '" + str(v) + "'"
 		param = param[1:]
 

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import sys
 import time
-import Tkinter
+import tkinter
 
 sys.path.append("..")
 from View import MainView
